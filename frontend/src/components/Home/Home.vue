@@ -141,15 +141,13 @@
 
 <style scoped>
     canvas {
-        margin-top: 20px;
         background-color: white;
         border: 1px solid blue;
-        margin-left: 400px;
     }
 
     div.test-image {
-        height: 350px;
-        width: 350px;
+        height: 604px;
+        width: 431px;
         border: 1px solid black;
     }
 

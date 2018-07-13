@@ -51,7 +51,7 @@
             metamask_account: 0,
             canvasData: {
                 assets: [],
-                ratio: '2:3',
+                ratio: '1:1',
                 frame: false,
             },
             random_seed: 0,
@@ -97,6 +97,7 @@
                     pot = selectedPacks.map(assetPack =>
                         assetPack.data.map(asset => parseInt(asset.id)))
                         .reduce((a, b) => a.concat(b), []);
+                    window.sessionStorage.clear();
                 } else {
                     pot = this.selectedAssetPacks.map(assetPack =>
                         assetPack.data.map(asset => parseInt(asset.id)))
@@ -152,6 +153,7 @@
 
         async created() {
             if (window.sessionStorage.length > 0) {
+                console.log("ENTERED");
                 this.random_hash_ids = JSON.parse(sessionStorage.getItem("random_hash_ids"));
                 this.timestamp = sessionStorage.getItem("timestamp");
                 this.iterations = sessionStorage.getItem("iterations");
@@ -169,6 +171,7 @@
         watch: {
                 selectedAssetPacks: async function () {
                     window.sessionStorage.clear();
+                    this.random_hash_ids = functions.pickTenRandoms();
                     this.iterations = 0;
                     this.timestamp = new Date().getTime();
                     this.random_seed = await functions.calculateFirstSeed(this.timestamp, this.random_hash_ids);
