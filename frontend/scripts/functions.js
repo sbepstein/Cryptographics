@@ -3,6 +3,7 @@ const Web3 = require('web3');
 const util = require('ethereumjs-util');
 const leftPad = require('left-pad')
 const conf = require('./config.json');
+const starter_packs = require('./starter_packs.json');
 const bs58 = require('bs58');
 
 const web3 = new Web3(new Web3.providers.HttpProvider(`https://kovan.infura.io/ce2cJSQZefTbWxpnI1dZ`));
@@ -260,6 +261,20 @@ async function getImage(random_seed, iterations, potentialAssets) {
     return pickedAssets;
 }
 
+function generatePacks() {
+    let packId = starter_packs["0"].id;
+    let packData = starter_packs["0"].data;
+
+    let pack = {
+        id: packId,
+        data: packData
+    }
+    let arr = [];
+    arr.push(pack);
+    console.log(pack);
+    return arr;
+}
+
 //Function to get data from contract for every asset (id,creator, ipfsHash, and price) - based on asset id
 async function getAssetStats(id) {
     let numberOfAssets = await assetManagerContract.methods.getNumberOfAssets().call();
@@ -273,7 +288,7 @@ async function getAssetStats(id) {
             id: parseInt(info[0], 10),
             pack_id: parseInt(info[1],10),
             attributes: info[2],
-            ipfsHash: info[2],
+            ipfsHash: info[3],
         }
         return Info;
     }
@@ -289,7 +304,8 @@ async function test() {
 
     // console.log(await getCreatedAssetPacks("0xf67cDA56135d5777241DF325c94F1012c72617eA"));
     // console.log(await getAssetPackData(0));
-    // console.log(await getAssetPackData(5));
+    // console.log(await getAssetPackData(9));
+    generatePacks();
     // console.log(await getPackInformation([1,2,3],"0xf67cDA56135d5777241DF325c94F1012c72617eA"));
     // await getAttributesForAssets([1,2,3,4]);
 }
@@ -323,5 +339,6 @@ module.exports = {
     getCoversForAssetPacks,
     getAssetPacksNames,
     getPackInformation,
-    getPaginatedAssetPacks
+    getPaginatedAssetPacks,
+    generatePacks,
 }
